@@ -34,6 +34,7 @@ object Main {
   def main(args: Array[String]): Unit = {
     val funcs = new Demo();
     println("factorial(5) = " + funcs.factorial(5));
-    funcs.printAllPrimes(50000000);
+	println("All primes smaller than 500:");
+    funcs.printAllPrimes(500);
   }
 }
