@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="commons-lang-2.5">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/libs/sbt/commons-lang-2.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/sbt/miglayout-3.7.3.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/sbt/sbt-plugin-1.8.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
