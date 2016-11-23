@@ -12,12 +12,15 @@ class Drone extends Actor {
     case input =>
       val decomposition: Array[String] = input.toString.split(" ")
       if (decomposition(0) == "picture") {
-        println("taking picture")
+        println("DRONE:    taking picture")
+        Thread.sleep(500);
         sender ! "picture"
       } else if (decomposition(0) == "fly") {
         x = decomposition(1).toInt
         y = decomposition(2).toInt
-        println("flying to x=" + x + " and y=" + y)
+        println("DRONE:    flying to x=" + x + " and y=" + y)
+        Thread.sleep(500);
+        sender ! "flying to x=" + x + " and y=" + y
       }
   }
 }
