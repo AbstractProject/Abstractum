@@ -4,12 +4,13 @@ import akka.actor._
   */
 
 class Operator(drone: ActorRef) extends Actor {
+
   val positionX: Array[Int] = Array(4, 8, 3, 7, 9, 6, 2, 7, 9, 5)
   val positionY: Array[Int] = Array(3, 7, 0, 3, 6, 0, 7, 2, 4, 8)
   var position = 0
 
   println("OPERATOR: fly to" + "(" + positionX(position) + ", " + positionY(position) + ") and take picture")
-  Thread.sleep(500);
+  Thread.sleep(500)
   drone ! "fly " + positionX(position) + " " + positionY(position)
   drone ! "picture"
 
