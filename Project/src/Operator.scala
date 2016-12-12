@@ -6,14 +6,18 @@ import akka.actor._
 
 class Operator(drone: ActorRef) extends Actor {
 
-  var k : Int = 0; // fatigue level measured by completed tasks
-  var t : Int = 0; // workload level
-  var s : Int = 0; // status of image processing, 0: init, 1: good, 2: bad
-  var c : Int = 0; // choices at the check point
+  var k: Int = 0;
+  // fatigue level measured by completed tasks
+  var t: Int = 0;
+  // workload level
+  var s: Int = 0;
+  // status of image processing, 0: init, 1: good, 2: bad
+  var c: Int = 0;
+  // choices at the check point
 
-  var w : Int = 1
+  var w: Int = 1
 
-  var stop : Boolean = false;
+  var stop: Boolean = false;
   val rand = scala.util.Random
 
   drone ! "fly 0"
@@ -48,9 +52,8 @@ class Operator(drone: ActorRef) extends Actor {
       }
   }
 
-  def terminateOnSucccess(): Boolean =
-  {
-    if(Globals.visited(1) && Globals.visited(2) && Globals.visited(6)) {
+  def terminateOnSucccess(): Boolean = {
+    if (Globals.visited(1) && Globals.visited(2) && Globals.visited(6)) {
       println("OPERATOR: Mission success!")
       println("OPERATOR: terminating Drone")
       context stop drone
