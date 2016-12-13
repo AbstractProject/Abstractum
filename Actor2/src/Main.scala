@@ -8,6 +8,8 @@ object Main {
     val system = ActorSystem("HelloSystem")
     val drone = system.actorOf(Props[Drone], name = "drone")
     val operator = system.actorOf(Props(new Operator(drone)), name = "operator")
+
+
   }
 
 }

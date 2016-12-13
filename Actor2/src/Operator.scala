@@ -5,39 +5,44 @@ import akka.actor._
 
 class Operator(drone: ActorRef) extends Actor {
 
-  val positionX: Array[Int] = Array(4, 8, 3, 7, 9, 6, 2, 7, 9, 5)
-  val positionY: Array[Int] = Array(3, 7, 0, 3, 6, 0, 7, 2, 4, 8)
+  val positionX: Array[Int] = Array(1,2,3,4,5,6)
   var position = 0
+  val rand = scala.util.Random
 
-  println("OPERATOR: fly to" + "(" + positionX(position) + ", " + positionY(position) + ") and take picture")
-  Thread.sleep(500)
-  drone ! "fly " + positionX(position) + " " + positionY(position)
-  drone ! "picture"
+  drone ! "#start"
 
   def receive = {
     case input =>
       val decomposition: Array[String] = input.toString.split(" ")
-      if (decomposition(0) == "picture") {
-        println("OPERATOR: received picture")
 
-        val rand = scala.util.Random
+      if (decomposition(0) == "#picture") {
+        println("OPERATOR: received picture")
 
         if (rand.nextInt(100) < 20) {
           println("OPERATOR: picture failed")
-          Thread.sleep(500);
+          Thread.sleep(500)
           println("OPERATOR: retaking picture")
-          Thread.sleep(500);
-          drone ! "picture" // de ce da eroare aici????
-        } else {
-          println("OPERATOR: picture valid")
-          position += 1
-          if (position < positionX.length) {
-            println("OPERATOR: fly to (" + positionX(position) + ", " + positionY(position) + ") and take picture")
-            Thread.sleep(500);
-            drone ! "fly " + positionX(position) + " " + positionY(position)
-            drone ! "picture"
-          }
+          Thread.sleep(500)
+          drone ! "#takePicture" // de ce da eroare aici????
+        }else{
+          println("OPERATOR:  picture ok")
+          Thread.sleep(500)
+          drone ! "#goodPicture"
         }
+      }
+
+      else if(decomposition(0) == "#sendNext") {
+        val state = decomposition(0).toInt
+        var nextState = -1
+        Thread.sleep(500)
+
+        state match {
+          case 2 => nextState = rand.nextInt(4)
+          case 5 => nextState = rand.nextInt(3)
+          case 6 => nextState = rand.nextInt(3)
+        }
+
+        println("OPERATOR: sending instruction" + nextState)
       }
   }
 }
