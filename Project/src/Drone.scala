@@ -94,8 +94,9 @@ class Drone extends Actor {
             waypoint match {
               case 1 =>
                 // w1 -> r1 | r9
-                val randomAux = random.nextInt(2)
-                if (randomAux == 0) {
+                val randomAux = random.nextInt(100)
+                val randomMax = random.nextInt(100)
+                if (randomAux <= randomMax) {
                   roadpoint = 1
                 } else {
                   roadpoint = 9
@@ -104,8 +105,9 @@ class Drone extends Actor {
 
               case 3 =>
                 // w3 -> r6 | w4 (any angle point)
-                val randomAux = random.nextInt(2)
-                if (randomAux == 0) {
+                val randomAux = random.nextInt(100)
+                val randomMax = random.nextInt(100)
+                if (randomAux <= randomMax) {
                   roadpoint = 6
                 } else {
                   waypoint = 4
@@ -116,8 +118,9 @@ class Drone extends Actor {
 
               case 4 =>
                 // w4 -> w3 | w5
-                val randomAux = random.nextInt(2)
-                if (randomAux == 0) {
+                val randomAux = random.nextInt(100)
+                val randomMax = random.nextInt(100)
+                if (randomAux <= randomMax) {
                   waypoint = 3
                   angle = random.nextInt(7) + 1 // angle is set to a value of 1...8 randomly
                   roadpoint = 0
@@ -139,8 +142,9 @@ class Drone extends Actor {
             roadpoint match {
               // r1 -> r2 | w1
               case 1 =>
-                val randomAux = random.nextInt(2)
-                if (randomAux == 0) {
+                val randomAux = random.nextInt(100)
+                val randomMax = random.nextInt(100)
+                if (randomAux <= randomMax) {
                   roadpoint = 2
                 } else {
                   waypoint = 1
@@ -152,8 +156,9 @@ class Drone extends Actor {
 
               // r2 -> r1 | w6
               case 2 =>
-                val randomAux = random.nextInt(2)
-                if (randomAux == 0) {
+                val randomAux = random.nextInt(100)
+                val randomMax = random.nextInt(100)
+                if (randomAux <= randomMax) {
                   roadpoint = 1
                 } else {
                   waypoint = 6
@@ -165,8 +170,9 @@ class Drone extends Actor {
 
               // r3 -> w5 | w6
               case 3 =>
-                val randomAux = random.nextInt(2)
-                if (randomAux == 0) {
+                val randomAux = random.nextInt(100)
+                val randomMax = random.nextInt(100)
+                if (randomAux <= randomMax) {
                   waypoint = 5
                   angle = random.nextInt(7) + 1 // angle is set to a value of 1...8 randomly
                   roadpoint = 0
@@ -181,8 +187,9 @@ class Drone extends Actor {
 
               // r4 -> r5 | w5
               case 4 =>
-                val randomAux = random.nextInt(2)
-                if (randomAux == 0) {
+                val randomAux = random.nextInt(100)
+                val randomMax = random.nextInt(100)
+                if (randomAux <= randomMax) {
                   roadpoint = 5
                 } else {
                   waypoint = 5
@@ -194,8 +201,9 @@ class Drone extends Actor {
 
               // r5 -> r4 | w2
               case 5 =>
-                val randomAux = random.nextInt(2)
-                if (randomAux == 0) {
+                val randomAux = random.nextInt(100)
+                val randomMax = random.nextInt(100)
+                if (randomAux <= randomMax) {
                   roadpoint = 4
                 } else {
                   waypoint = 2
@@ -207,8 +215,9 @@ class Drone extends Actor {
 
               // r6 -> w2 | w3
               case 6 =>
-                val randomAux = random.nextInt(2)
-                if (randomAux == 0) {
+                val randomAux = random.nextInt(100)
+                val randomMax = random.nextInt(100)
+                if (randomAux <= randomMax) {
                   waypoint = 2
                   angle = random.nextInt(7) + 1 // angle is set to a value of 1...8 randomly
                   roadpoint = 0
@@ -223,8 +232,9 @@ class Drone extends Actor {
 
               // r7 -> w2 | r8
               case 7 =>
-                val randomAux = random.nextInt(2)
-                if (randomAux == 0) {
+                val randomAux = random.nextInt(100)
+                val randomMax = random.nextInt(100)
+                if (randomAux <= randomMax) {
                   waypoint = 2
                   angle = random.nextInt(7) + 1 // angle is set to a value of 1...8 randomly
                   roadpoint = 0
@@ -236,8 +246,9 @@ class Drone extends Actor {
 
               // r8 -> w6 | r7
               case 8 =>
-                val randomAux = random.nextInt(2)
-                if (randomAux == 0) {
+                val randomAux = random.nextInt(100)
+                val randomMax = random.nextInt(100)
+                if (randomAux <= randomMax) {
                   waypoint = 6
                   angle = random.nextInt(7) + 1 // angle is set to a value of 1...8 randomly
                   roadpoint = 0
@@ -248,8 +259,9 @@ class Drone extends Actor {
 
               // r9 -> w1 | w2
               case 9 =>
-                val randomAux = random.nextInt(2)
-                if (randomAux == 0) {
+                val randomAux = random.nextInt(100)
+                val randomMax = random.nextInt(100)
+                if (randomAux <= randomMax) {
                   waypoint = 1
                   angle = random.nextInt(7) + 1 // angle is set to a value of 1...8 randomly
                   roadpoint = 0
