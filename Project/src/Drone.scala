@@ -27,7 +27,7 @@ class Drone extends Actor {
   def takePicture() = {
     println("DRONE: taking picture at waypoint " + waypoint)
     Thread.sleep(400)
-    expectedTime += 10
+    println(expectedTime)
     sender ! "picture " + waypoint + " time " + expectedTime
   }
 
@@ -43,8 +43,8 @@ class Drone extends Actor {
       else if (decomposition(0) == "fly") {
         // receive a fly command
         println("DRONE: flying")
-        expectedTime += 60
-        println(expectedTime)
+        expectedTime = 0
+
         val newDestination = decomposition(1).toInt
 
         //PRISM go command, fly out of the waypoint via any angle point
@@ -55,7 +55,7 @@ class Drone extends Actor {
 
         while (!in) {
           println("DRONE1: waypoint " + waypoint, "roadpoint " + roadpoint, "angle " + angle, "in " + in)
-
+          expectedTime += 60
           // movement by orders
           if (angle != 0 && roadpoint == 0 && !in) {
 
