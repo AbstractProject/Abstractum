@@ -26,9 +26,9 @@ class Drone extends Actor {
 
   def takePicture() = {
     println("DRONE: taking picture at waypoint " + waypoint)
-    Thread.sleep(400)
+    Thread.sleep(100)
     //println(expectedTime)
-    sender ! "picture " + waypoint + " time " + expectedTime
+    sender ! "picture " + waypoint + " " + expectedTime
     expectedTime = 10
   }
 

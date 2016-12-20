@@ -33,6 +33,7 @@ class Operator(drone: ActorRef) extends Actor {
           t = 0
           s = 0
           w = decomposition(1).toInt
+          Globals.totalMissionTime += decomposition(2).toInt
         }
 
         takeOneStep()
@@ -54,7 +55,7 @@ class Operator(drone: ActorRef) extends Actor {
 
   def terminateOnSucccess(): Boolean = {
     if (Globals.visited(1) && Globals.visited(2) && Globals.visited(6)) {
-      println("OPERATOR: Mission success!")
+      println("OPERATOR: Mission success! Total time: " + Globals.totalMissionTime)
       println("OPERATOR: terminating Drone")
       context stop drone
       println("OPERATOR: terminating Operator")

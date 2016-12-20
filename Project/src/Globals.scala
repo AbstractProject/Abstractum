@@ -11,5 +11,6 @@ object Globals {
   var risky6: Double = 0.6;
 
   var visited: Array[Boolean] = Array(false, false, false, false, false, false, false)
+  var totalMissionTime = 0;
 
 }
