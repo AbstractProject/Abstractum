@@ -6,18 +6,18 @@ import akka.actor._
 
 class Operator(drone: ActorRef) extends Actor {
 
-  var k: Int = 0;
+  var k: Int = 0
   // fatigue level measured by completed tasks
-  var t: Int = 0;
+  var t: Int = 0
   // workload level
-  var s: Int = 0;
+  var s: Int = 0
   // status of image processing, 0: init, 1: good, 2: bad
-  var c: Int = 0;
+  var c: Int = 0
   // choices at the check point
 
   var w: Int = 1
 
-  var stop: Boolean = false;
+  var stop: Boolean = false
   val rand = scala.util.Random
 
   drone ! "fly 0"
@@ -30,12 +30,12 @@ class Operator(drone: ActorRef) extends Actor {
 
         if (decomposition(0) == "picture") {
           println("OPERATOR: got picture from drone at " + decomposition(1))
-          t = 0;
-          s = 0;
+          t = 0
+          s = 0
           w = decomposition(1).toInt
         }
 
-        takeOneStep
+        takeOneStep()
 
         if (s == 1) {
           Globals.visited(w) = true
@@ -61,10 +61,10 @@ class Operator(drone: ActorRef) extends Actor {
       context stop self
       return true
     }
-    return false
+    false
   }
 
-  def takeOneStep = {
+  def takeOneStep() = {
 
     if (!stop) {
       while (s == 0) {
@@ -74,23 +74,23 @@ class Operator(drone: ActorRef) extends Actor {
               case 0 =>
                 val p: Float = rand.nextFloat()
                 if (p < Globals.p) {
-                  t = 2;
-                  s = 0;
+                  t = 2
+                  s = 0
                 }
                 else {
-                  t = 1;
-                  s = 0;
+                  t = 1
+                  s = 0
                 }
               case 1 =>
                 val p: Float = rand.nextFloat()
                 if (k <= Globals.COUNTER) {
                   if (p < Globals.accu_load1) {
-                    s = 1;
-                    k = k + 1;
+                    s = 1
+                    k = k + 1
                   }
                   else {
-                    s = 2;
-                    k = k + 1;
+                    s = 2
+                    k = k + 1
                   }
                 }
                 else {
@@ -105,11 +105,11 @@ class Operator(drone: ActorRef) extends Actor {
                 val p: Float = rand.nextFloat()
                 if (k <= Globals.COUNTER) {
                   if (p < Globals.accu_load2) {
-                    s = 1;
+                    s = 1
                     k = k + 1
                   }
                   else {
-                    s = 2;
+                    s = 2
                     k = k + 1
                   }
                 }
@@ -127,61 +127,62 @@ class Operator(drone: ActorRef) extends Actor {
               case 2 =>
                 val p = rand.nextFloat()
                 if (p < Globals.risky2) {
-                  c = 2;
-                  t = 0;
-                  s = 0;
+                  c = 2
+                  t = 0
+                  s = 0
                 }
                 else if (p < (Globals.risky2 + (1 - Globals.risky2) / 3)) {
-                  c = 3;
-                  t = 0;
-                  s = 0;
+                  c = 3
+                  t = 0
+                  s = 0
                 }
                 else if (p < (Globals.risky2 + 2 * (1 - Globals.risky2) / 3)) {
-                  c = 1;
-                  t = 0;
-                  s = 0;
+                  c = 1
+                  t = 0
+                  s = 0
                 }
                 else {
-                  c = 0;
-                  t = 0;
-                  s = 0;
+                  c = 0
+                  t = 0
+                  s = 0
                 }
               case 5 =>
                 val p = rand.nextFloat()
                 if (p < 1 / 3) {
-                  c = 2;
-                  t = 0;
-                  s = 0;
+                  c = 2
+                  t = 0
+                  s = 0
                 }
                 else if (p < 2 / 3) {
-                  c = 1;
-                  t = 0;
-                  s = 0;
+                  c = 1
+                  t = 0
+                  s = 0
                 }
                 else {
-                  c = 0;
-                  t = 0;
-                  s = 0;
+                  c = 0
+                  t = 0
+                  s = 0
                 }
               case 6 =>
                 val p = rand.nextFloat()
                 if (p < Globals.risky6) {
-                  c = 2;
-                  t = 0;
-                  s = 0;
+                  c = 2
+                  t = 0
+                  s = 0
                 }
                 else if (p < (Globals.risky2 + (1 - Globals.risky2) / 2)) {
-                  c = 1;
-                  t = 0;
-                  s = 0;
+                  c = 1
+                  t = 0
+                  s = 0
                 }
                 else {
-                  c = 0;
-                  t = 0;
-                  s = 0;
+                  c = 0
+                  t = 0
+                  s = 0
                 }
               case _ =>
-                t = 0; s = 0;
+                t = 0
+                s = 0;
             }
           case 2 =>
             t = 0

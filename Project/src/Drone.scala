@@ -7,6 +7,7 @@ import akka.actor.Actor
 class Drone extends Actor {
 
   //drone state variable
+
   var waypoint = 1
   // marks the Goals of the drone
 
@@ -16,6 +17,8 @@ class Drone extends Actor {
   var roadpoint = 0
   // marks diffrent points on the paths of the drone
 
+  var expectedTime = 0;
+
   var in = true
 
   //to be used when taking random decisions
@@ -23,8 +26,9 @@ class Drone extends Actor {
 
   def takePicture() = {
     println("DRONE: taking picture at waypoint " + waypoint)
-    Thread.sleep(100)
-    sender ! "picture " + waypoint
+    Thread.sleep(400)
+    expectedTime += 10
+    sender ! "picture " + waypoint + " time " + expectedTime
   }
 
   def receive = {
@@ -39,6 +43,8 @@ class Drone extends Actor {
       else if (decomposition(0) == "fly") {
         // receive a fly command
         println("DRONE: flying")
+        expectedTime += 60
+        println(expectedTime)
         val newDestination = decomposition(1).toInt
 
         //PRISM go command, fly out of the waypoint via any angle point
