@@ -2,13 +2,17 @@ package com.madhukaraphatak.akka.local
 
 import java.io.{BufferedWriter, File, FileWriter}
 
-import akka.actor.{Actor, ActorRef, ActorSystem, Props}
+import akka.actor.{Actor, ActorRef, ActorSelection, ActorSystem, Props}
 import com.typesafe.config.ConfigFactory
 
 /**
  * Local actor which listens on any free port
  */
 class Client extends Actor{
+
+  var remoteActor : ActorSelection = null
+  var totalMissionTime = 0
+
   @throws[Exception](classOf[Exception])
   override def preStart(): Unit = {
     /*
@@ -25,8 +29,8 @@ class Client extends Actor{
       remote : name of the actor, passed as parameter to system.actorOf call
 
      */
-    val remoteActor = context.actorSelection("akka.tcp://RemoteSystem@127.0.0.1:5150/user/remote")
-    val message ="i am client 1"
+    remoteActor = context.actorSelection("akka.tcp://RemoteSystem@192.168.8.100:5150/user/remote")
+    val message ="give me an id"
     println("That 's remote:" + remoteActor)
     remoteActor ! message
 
@@ -39,6 +43,13 @@ class Client extends Actor{
       if (msg == "start") {
         ClientMain.operator ! "start"
       }
+
+      val decomposition: Array[String] = msg.toString.split(" ")
+      if (decomposition(0) == "success") {
+        totalMissionTime = decomposition(1).toInt
+      }
+
+
       println("got message from remote " + msg)
     }
   }
@@ -54,11 +65,11 @@ object ClientMain {
     val configFile = getClass.getClassLoader.getResource("local_application.conf").getFile
     val config = ConfigFactory.parseFile(new File(configFile))
     val system = ActorSystem("ClientSystem",config)
-    val Client = system.actorOf(Props[Client], name="local")
+    val client = system.actorOf(Props[Client], name="local")
 
     val system1 = ActorSystem("OperatorAndDroneSystem")
     val drone = system1.actorOf(Props[Drone], name = "drone")
-    operator = system1.actorOf(Props(new Operator(drone)), name = "operator")
+    operator = system1.actorOf(Props(new Operator(drone,client)), name = "operator")
 
   }
 

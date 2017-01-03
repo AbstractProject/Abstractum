@@ -4,7 +4,7 @@
 package com.madhukaraphatak.akka.local
 import akka.actor._
 
-class Operator(drone: ActorRef) extends Actor {
+class Operator(drone: ActorRef, client: ActorRef) extends Actor {
 
 	var k: Int = 0
 	// fatigue level measured by completed tasks
@@ -47,7 +47,7 @@ class Operator(drone: ActorRef) extends Actor {
 						drone ! "fly " + c
 					}
 					else {
-						System.exit(0)
+						//System.exit(0)
 					}
 
 				}
@@ -63,6 +63,7 @@ class Operator(drone: ActorRef) extends Actor {
 		if (Globals.visited(1) && Globals.visited(2) && Globals.visited(6)) {
 			println("OPERATOR: Mission success! Total time: " + Globals.totalMissionTime)
 			println("OPERATOR: terminating Drone")
+			client ! "success " + Globals.totalMissionTime
 			context stop drone
 			println("OPERATOR: terminating Operator")
 			context stop self
