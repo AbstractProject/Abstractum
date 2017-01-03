@@ -1,6 +1,9 @@
 /**
   * Created by Gellért on 2016. 12. 06..
   */
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+
 object Globals {
   val p: Double = 0.5;
   var accu_load1: Double = 0.8;

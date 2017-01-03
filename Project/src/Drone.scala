@@ -34,7 +34,7 @@ class Drone extends Actor {
 
   def receive = {
     case input =>
-      println("DRONE got cmd: " + input)
+      //println("DRONE got cmd: " + input)
       val decomposition: Array[String] = input.toString.split(" ")
 
       if (decomposition(0) == "picture") {
