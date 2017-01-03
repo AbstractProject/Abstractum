@@ -1,6 +1,7 @@
 package com.madhukaraphatak.akka.remote
 
 import java.io.{BufferedWriter, File, FileWriter}
+import javax.print.DocFlavor.INPUT_STREAM
 
 import akka.actor._
 import com.typesafe.config.ConfigFactory
@@ -10,16 +11,53 @@ import com.typesafe.config.ConfigFactory
  */
 class CentralServer extends Actor {
 
-
+var i: Int =0
   override def receive: Receive = {
     case msg: String => {
       println("remote received " + msg + " from " + sender)
       msg match {
-        case "i am client 1" =>
-          println("match")
-          ServerMain.c1 = sender
-          println(ServerMain.c1)
+        case "give me an id" =>
+          if(ServerMain.clients(0)==null){
+            ServerMain.clients(0)=sender
+          }
+          else{
+            if(ServerMain.clients(1)==null){
+              ServerMain.clients(1)=sender
+            }
+            else{
+              if(ServerMain.clients(2)==null){
+                ServerMain.clients(2)=sender
+              }
+              else{
+                if(ServerMain.clients(3)==null){
+                  ServerMain.clients(3)=sender
+                }
+                else{
+                  if(ServerMain.clients(4)==null){
+                    ServerMain.clients(4)=sender
+                  }
+                }
+              }
+            }
+          }
+        case "0"=>
+          if(ServerMain.clients(i)==sender){
+            ServerMain.clients(i+1) ! "poll"
+            if(i<5) {
+              i = i + 1
+            }
+            else{
+              i = 0
+            }
+
+          }
       }
+      val decomposition: Array[String]=msg.split(" ")
+      if(decomposition(0)=="success"){
+          //decomp(1) salvat in fisier + valori constante fara p
+      }
+
+
       sender ! msg
 
       // FileWriter
@@ -34,11 +72,7 @@ class CentralServer extends Actor {
 
 object ServerMain{
 
-  var c1 : ActorRef = null;
-  var c2 : ActorRef = null;
-  var c3 : ActorRef = null;
-  var c4 : ActorRef = null;
-  var c5 : ActorRef = null;
+  var clients : Array[ActorRef]=Array(null,null,null,null,null)
 
   def main(args: Array[String]) {
     //get the configuration file from classpath
@@ -48,18 +82,19 @@ object ServerMain{
     //create an actor system with that config
     val system = ActorSystem("RemoteSystem" , config)
     //create a remote actor from actorSystem
-    //var ln = io.Source.stdin.toString()
-    //println(ln)
+    var ln =""
     val remote = system.actorOf(Props[CentralServer], name="remote")
     println("remote is ready")
 
     var i = 0
-    while (i == 0) {
+    while (i < 5) {
       print("")
-      if ( c1!=null){
-        println("mere")
-        c1 ! "start"
-        i=1
+      ln=readLine()
+      val decomposition: Array[String]=ln.split(" ")
+      if (clients(decomposition(1).toInt)!=null){
+        //println("mere")
+        clients(decomposition(1).toInt) ! ln
+        i=i+1
         Thread.sleep(1000)
       }
     }
