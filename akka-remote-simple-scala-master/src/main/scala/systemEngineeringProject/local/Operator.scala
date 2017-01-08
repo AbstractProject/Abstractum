@@ -1,7 +1,8 @@
 /**
   * Created by Gellért on 2016. 12. 06..
   */
-package com.madhukaraphatak.akka.local
+package systemEngineeringProject.local
+
 import akka.actor._
 
 class Operator(drone: ActorRef, client: ActorRef) extends Actor {

@@ -12,3 +12,7 @@ libraryDependencies +=
 
 libraryDependencies +=
   "com.typesafe.akka" %% "akka-remote" % "2.3.7"
+
+libraryDependencies += "org.sameersingh.scalaplot" % "scalaplot" % "0.0.4"
+
+

@@ -1,10 +1,10 @@
-package com.madhukaraphatak.akka.remote
+package systemEngineeringProject.remote
 
 import java.io.{BufferedWriter, File, FileWriter}
-import javax.print.DocFlavor.INPUT_STREAM
 
 import akka.actor._
 import com.typesafe.config.ConfigFactory
+import org.sameersingh.scalaplot.Implicits._
 
 /**
  * Remote actor which listens on port 5150
@@ -49,22 +49,18 @@ var i: Int =0
             else{
               i = 0
             }
-
           }
       }
+
       val decomposition: Array[String]=msg.split(" ")
       if(decomposition(0)=="success"){
-          //decomp(1) salvat in fisier + valori constante fara p
+        // FileWriter
+        val file = new File("C:\\Users\\Catalina\\Documents\\GitHub\\Abstractum\\akka-remote-simple-scala-master\\results.txt")
+        val bw = new BufferedWriter(new FileWriter(file,true))
+        bw.write(decomposition(1) + '\n')
+        bw.close()
       }
-
-
       sender ! msg
-
-      // FileWriter
-      val file = new File("C:\\Users\\Catalina\\Documents\\GitHub\\Abstractum\\akka-remote-simple-scala-master\\results.txt")
-      val bw = new BufferedWriter(new FileWriter(file,true))
-      bw.write(msg + '\n')
-      bw.close()
     }
     case _ => println("Received unknown msg ")
   }
@@ -86,6 +82,13 @@ object ServerMain{
     val remote = system.actorOf(Props[CentralServer], name="remote")
     println("remote is ready")
 
+
+
+   // val x = 0.0 until 2.0 * math.Pi by 0.1
+    //output(PNG("docs/","test"), xyChart(x ->(math.sin(_), math.cos(_))))
+
+
+
     var i = 0
     while (i < 5) {
       print("")
@@ -98,8 +101,6 @@ object ServerMain{
         Thread.sleep(1000)
       }
     }
-
-
   }
 }
 

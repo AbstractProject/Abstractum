@@ -1,4 +1,5 @@
-package com.madhukaraphatak.akka.local
+package systemEngineeringProject.local
+
 import akka.actor.Actor
 
 /**
@@ -70,7 +71,6 @@ class Drone extends Actor {
                   case 2 => roadpoint = 7
                   case 3 => roadpoint = 9
                 }
-
 
               case 5 =>
                 // w5 -> r3 | r4 | w4 (at any angle point)

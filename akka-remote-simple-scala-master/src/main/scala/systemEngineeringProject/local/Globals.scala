@@ -1,7 +1,8 @@
 /**
   * Created by Gellért on 2016. 12. 06..
   */
-package com.madhukaraphatak.akka.local
+package systemEngineeringProject.local
+
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
@@ -16,5 +17,4 @@ object Globals {
 
   var visited: Array[Boolean] = Array(false, false, false, false, false, false, false)
   var totalMissionTime = 0;
-
 }
