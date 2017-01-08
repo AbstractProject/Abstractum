@@ -6,40 +6,45 @@ import akka.actor._
 import com.typesafe.config.ConfigFactory
 import org.sameersingh.scalaplot.Implicits._
 
-/**
- * Remote actor which listens on port 5150
- */
 class CentralServer extends Actor {
 
 var i: Int =0
   override def receive: Receive = {
+    var id : Int = 0
     case msg: String => {
-      println("remote received " + msg + " from " + sender)
+      println("Server received: " + msg + "  from " + sender)
       msg match {
-        case "give me an id" =>
+        case "ID request" =>
+          println("New client is trying to connect.")
           if(ServerMain.clients(0)==null){
             ServerMain.clients(0)=sender
           }
           else{
             if(ServerMain.clients(1)==null){
               ServerMain.clients(1)=sender
+              id = 1;
             }
             else{
               if(ServerMain.clients(2)==null){
                 ServerMain.clients(2)=sender
+                id = 2;
               }
               else{
                 if(ServerMain.clients(3)==null){
                   ServerMain.clients(3)=sender
+                  id = 3;
                 }
                 else{
                   if(ServerMain.clients(4)==null){
                     ServerMain.clients(4)=sender
+                    id = 4;
                   }
                 }
               }
             }
           }
+          println("New client with id "+ id+ " is connected.")
+
         case "0"=>
           if(ServerMain.clients(i)==sender){
             ServerMain.clients(i+1) ! "poll"
@@ -79,8 +84,8 @@ object ServerMain{
     val system = ActorSystem("RemoteSystem" , config)
     //create a remote actor from actorSystem
     var ln =""
-    val remote = system.actorOf(Props[CentralServer], name="remote")
-    println("remote is ready")
+    val remote = system.actorOf(Props[CentralServer], name="server")
+    println("Server started ")
 
 
 

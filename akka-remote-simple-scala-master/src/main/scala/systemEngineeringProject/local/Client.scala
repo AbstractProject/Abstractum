@@ -8,9 +8,6 @@ import java.io.{BufferedWriter, File, FileWriter}
 import akka.actor.{Actor, ActorRef, ActorSelection, ActorSystem, Props}
 import com.typesafe.config.ConfigFactory
 
-/**
- * Local actor which listens on any free port
- */
 class Client extends Actor{
 
   var remoteActor : ActorSelection = null
@@ -19,9 +16,9 @@ class Client extends Actor{
   @throws[Exception](classOf[Exception])
   override def preStart(): Unit = {
 
-    remoteActor = context.actorSelection("akka.tcp://RemoteSystem@192.168.1.102:5150/user/remote")
-    val message ="give me an id"
-    println("That 's remote:" + remoteActor)
+    remoteActor = context.actorSelection("akka.tcp://RemoteSystem@192.168.1.102:5150/user/server")
+    val message ="ID request"
+    println("ID request sent to the server.")
     remoteActor ! message
   }
 
@@ -37,8 +34,7 @@ class Client extends Actor{
       else if (decomposition(0) == "poll"){
         sender ! totalMissionTime
     }
-
-      println("got message from remote " + msg)
+      //println("got message from remote " + msg)
     }
   }
 }
