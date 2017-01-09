@@ -9,7 +9,7 @@ class Operator(drone: ActorRef, client: ActorRef) extends Actor {
 
 	var k: Int = 0
 	// fatigue level measured by completed tasks
-	var t: Int= 0
+	var t: Int = 0
 	// workload level
 	var s: Int = 0
 	// status of image processing, 0: init, 1: good, 2: bad
@@ -21,12 +21,26 @@ class Operator(drone: ActorRef, client: ActorRef) extends Actor {
 	var stop: Boolean = false
 	val rand = scala.util.Random
 
+
+	def resetInitialState() = {
+		k = 0
+		t = 0
+		s = 0
+		c = 0
+		w = 1
+		for( a <- 0 to 5) {
+			Globals.visited(a) = false
+		}
+	}
+
 	override def receive = {
 		case input =>
 			val decomposition: Array[String] = input.toString.split(" ")
 
 			if (decomposition(0) == "start") {
+				resetInitialState()
 				println("OPERATOR: start")
+				drone ! "restart"
 				drone ! "fly 0"
 			}
 			else {
@@ -63,11 +77,7 @@ class Operator(drone: ActorRef, client: ActorRef) extends Actor {
 	def terminateOnSucccess(): Boolean = {
 		if (Globals.visited(1) && Globals.visited(2) && Globals.visited(6)) {
 			println("OPERATOR: Mission success! Total time: " + Globals.totalMissionTime)
-			println("OPERATOR: terminating Drone")
 			client ! "success " + Globals.totalMissionTime
-			context stop drone
-			println("OPERATOR: terminating Operator")
-			context stop self
 			return true
 		}
 		false

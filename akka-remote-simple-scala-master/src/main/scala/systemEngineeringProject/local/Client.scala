@@ -11,12 +11,12 @@ import com.typesafe.config.ConfigFactory
 class Client extends Actor{
 
   var remoteActor : ActorSelection = null
-  var totalMissionTime = 0
+  var totalMissionTime: Int = 0
 
   @throws[Exception](classOf[Exception])
   override def preStart(): Unit = {
 
-    remoteActor = context.actorSelection("akka.tcp://RemoteSystem@192.168.8.101:5150/user/remote")
+    remoteActor = context.actorSelection("akka.tcp://RemoteSystem@192.168.8.100:5150/user/remote")
     val message ="ID request"
     println("ID request sent to the server.")
     remoteActor ! message
@@ -27,13 +27,17 @@ class Client extends Actor{
     case msg:String => {
       val decomposition: Array[String] = msg.toString.split(" ")
       if (decomposition(0) == "start") {
+        totalMissionTime = 0
         ClientMain.operator ! "start"
+        remoteActor ! "Operator started"
       } else if (decomposition(0) == "success") {
         totalMissionTime = decomposition(1).toInt
       }
-      else if (decomposition(0) == "poll") {
-        sender ! totalMissionTime
-      }
+      else if (decomposition(0) == "poll"){
+        println("[CLIENT] Server polled the client.")
+        remoteActor ! totalMissionTime
+        if (totalMissionTime != 0) totalMissionTime = 0;
+    }
       //println("got message from remote " + msg)
     }
   }

@@ -28,7 +28,7 @@ class Drone extends Actor {
 
   def takePicture() = {
     println("DRONE: taking picture at waypoint " + waypoint)
-    Thread.sleep(100)
+    Thread.sleep(500)
     //println(expectedTime)
     sender ! "picture " + waypoint + " " + expectedTime
     expectedTime = 10
@@ -38,6 +38,15 @@ class Drone extends Actor {
     case input =>
       //println("DRONE got cmd: " + input)
       val decomposition: Array[String] = input.toString.split(" ")
+
+      if (decomposition(0) == "restart") {
+        println("DRONE: restarting")
+        waypoint = 1
+        angle = 0
+        roadpoint = 0
+        expectedTime = 0
+        in = true
+      }
 
       if (decomposition(0) == "picture") {
         takePicture()
