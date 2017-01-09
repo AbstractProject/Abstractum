@@ -9,7 +9,7 @@ class Operator(drone: ActorRef, client: ActorRef) extends Actor {
 
 	var k: Int = 0
 	// fatigue level measured by completed tasks
-	var t: Int = 0
+	var t: Int= 0
 	// workload level
 	var s: Int = 0
 	// status of image processing, 0: init, 1: good, 2: bad

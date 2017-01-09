@@ -16,7 +16,7 @@ class Client extends Actor{
   @throws[Exception](classOf[Exception])
   override def preStart(): Unit = {
 
-    remoteActor = context.actorSelection("akka.tcp://RemoteSystem@192.168.1.102:5150/user/server")
+    remoteActor = context.actorSelection("akka.tcp://RemoteSystem@192.168.8.101:5150/user/remote")
     val message ="ID request"
     println("ID request sent to the server.")
     remoteActor ! message
@@ -31,9 +31,9 @@ class Client extends Actor{
       } else if (decomposition(0) == "success") {
         totalMissionTime = decomposition(1).toInt
       }
-      else if (decomposition(0) == "poll"){
+      else if (decomposition(0) == "poll") {
         sender ! totalMissionTime
-    }
+      }
       //println("got message from remote " + msg)
     }
   }
